@@ -1,5 +1,8 @@
 import { useState } from "react";
 import "./App.css";
+import Header from "./components/Header";
+import InputForm from "./components/InputForm";
+import Result from "./components/Result";
 
 export default function App() {
   const [imc, setImc] = useState(null);
