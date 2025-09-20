@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./App.css";
 import Header from "./components/Header";
+import InfoSection from "./components/InfoSections";
 import InputForm from "./components/InputForm";
 import Result from "./components/Result";
 
@@ -28,6 +29,10 @@ export default function App() {
             </div>
           </div>
 
+          <div className="flex-1 w-full">
+            <InfoSection />
+          </div>
+
           {/* Footer */}
           <footer className="mt-12 text-center text-gray-600 text-sm animate-fade-in">
             <p className="mb-2">
@@ -35,7 +40,8 @@ export default function App() {
               indicador. Consulte sempre um profissional de saúde.
             </p>
             <p className="text-xs text-gray-500">
-              © 2025 Calculadora de IMC | Desenvolvido por Vinícius Ribeiro Lopes
+              © 2025 Calculadora de IMC | Desenvolvido por Vinícius Ribeiro
+              Lopes
             </p>
           </footer>
         </div>

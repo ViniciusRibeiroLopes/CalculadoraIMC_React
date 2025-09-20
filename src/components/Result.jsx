@@ -58,33 +58,21 @@ export default function Result({ imc }) {
       "Você está com obesidade. É importante buscar orientação médica.";
   }
 
-  // Função corrigida para posicionar o indicador na barra
   const getProgressWidth = () => {
-    // Definindo os limites das faixas na barra
-    const minIMC = 15; // Início da barra
-    const maxIMC = 40; // Final da barra
 
-    // Garantir que o IMC está dentro dos limites da barra
+    const minIMC = 15;
+    const maxIMC = 40;
+
     const clampedIMC = Math.max(minIMC, Math.min(maxIMC, imc));
-
-    // Calcular posição baseada nas faixas:
-    // 15-18.5: Abaixo do peso (0-14% da barra)
-    // 18.5-25: Normal (14-40% da barra)
-    // 25-30: Sobrepeso (40-65% da barra)
-    // 30-40: Obesidade (65-100% da barra)
 
     let position;
     if (clampedIMC < 18.5) {
-      // Abaixo do peso: 0-25% da barra
       position = ((clampedIMC - 15) / 3.5) * 25;
     } else if (clampedIMC < 25) {
-      // Normal: 25-50% da barra
       position = 25 + ((clampedIMC - 18.5) / 6.5) * 25;
     } else if (clampedIMC < 30) {
-      // Sobrepeso: 50-75% da barra
       position = 50 + ((clampedIMC - 25) / 5) * 25;
     } else {
-      // Obesidade: 75-100% da barra
       position = 75 + ((clampedIMC - 30) / 10) * 25;
     }
 
@@ -93,7 +81,6 @@ export default function Result({ imc }) {
 
   return (
     <div className="w-full max-w-2xl">
-      {/* Card Principal */}
       <div className={`rounded-2xl p-8 border-2 ${bgColor} shadow-2xl`}>
         <div className="text-center mb-6">
           <div className="text-5xl mb-4">{icon}</div>
@@ -103,7 +90,6 @@ export default function Result({ imc }) {
           <p className={`text-xl font-semibold ${color}`}>{categoria}</p>
         </div>
 
-        {/* Barra Visual do IMC Corrigida */}
         <div className="mb-6">
           <div className="relative bg-gray-200 rounded-full h-4 mb-2 overflow-hidden">
             <div className="absolute inset-0 flex">
@@ -120,7 +106,6 @@ export default function Result({ imc }) {
             </div>
           </div>
 
-          {/* Labels da barra */}
           <div className="flex justify-between text-xs text-gray-600 font-medium">
             <span>Baixo</span>
             <span>Normal</span>
@@ -128,7 +113,6 @@ export default function Result({ imc }) {
             <span>Obesidade</span>
           </div>
 
-          {/* Valores de referência na barra */}
           <div className="flex justify-between text-xs text-gray-500 mt-1">
             <span>&lt;18.5</span>
             <span>18.5-24.9</span>
@@ -137,10 +121,8 @@ export default function Result({ imc }) {
           </div>
         </div>
 
-        {/* Descrição */}
         <p className="text-gray-700 text-center mb-6">{description}</p>
 
-        {/* Tabela de Referência */}
         <div className="bg-white/50 rounded-lg p-4">
           <h3 className="font-semibold text-gray-700 mb-3 text-sm">
             Tabela de Referência IMC

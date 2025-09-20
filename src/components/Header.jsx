@@ -4,7 +4,6 @@ export default function Header() {
       <div className="bg-blue-800 text-white p-8 rounded-2xl shadow-2xl relative overflow-hidden">
         <div className="absolute -top-10 -right-10 w-32 h-32 bg-white opacity-10 rounded-full"></div>
         <div className="absolute -bottom-8 -left-8 w-24 h-24 bg-white opacity-10 rounded-full"></div>
-
         <div className="relative z-10 text-center">
           <div className="flex justify-center mb-4">
             <div className="bg-white/20 p-3 rounded-full backdrop-blur-sm">
