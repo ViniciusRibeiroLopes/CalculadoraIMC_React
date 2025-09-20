@@ -1,6 +1,6 @@
 export default function Header() {
   return (
-    <header className="w-full max-w-4xl mx-auto animate-fade-in">
+    <header className="w-full max-w-6xl mx-auto animate-fade-in">
       <div className="bg-gray-800 text-white p-8 rounded-2xl card-shadow relative overflow-hidden border border-gray-700">
         <div className="absolute -top-10 -right-10 w-32 h-32 bg-gray-700 opacity-10 rounded-full"></div>
         <div className="absolute -bottom-8 -left-8 w-24 h-24 bg-gray-700 opacity-10 rounded-full"></div>
@@ -8,7 +8,7 @@ export default function Header() {
           <div className="flex justify-center mb-4">
             <div className="bg-gray-800 p-3 rounded-full border border-gray-700">
               <svg
-                className="w-10 h-10 text-gray-300"
+                className="w-12 h-10 text-gray-300"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
