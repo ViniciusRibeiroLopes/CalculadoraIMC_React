@@ -96,6 +96,7 @@ A aplicação foi desenvolvida com design responsivo, adaptando-se perfeitamente
 src/
 ├── components/
 │   ├── Header.jsx      # Cabeçalho com título e ícone
+│   ├── InfoSection.jsx # Seção para informações sobre IMC
 │   ├── InputForm.jsx   # Formulário de entrada (peso/altura)
 │   └── Result.jsx      # Exibição do resultado e classificação
 ├── assets/
