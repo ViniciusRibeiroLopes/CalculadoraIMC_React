@@ -4,24 +4,65 @@
 @layer utilities {
   .gradient-bg {
     background: linear-gradient(
-      to bottom right,
-      rgb(239 246 255),
-      rgb(238 242 255),
-      rgb(243 232 255)
+      135deg,
+      rgb(31 41 55) 0%,
+      rgb(17 24 39) 50%,
+      rgb(31 41 55) 100%
     );
   }
 
   .card-shadow {
-    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1),
-      0 8px 10px -6px rgb(0 0 0 / 0.1);
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.2),
+      0 4px 6px -2px rgb(0 0 0 / 0.1), inset 0 1px 0 rgb(255 255 255 / 0.05);
+  }
+
+  .card-shadow-light {
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.15),
+      0 2px 4px -1px rgb(0 0 0 / 0.1), inset 0 1px 0 rgb(255 255 255 / 0.03);
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.6s ease-out;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.4s ease-out;
   }
 }
+
 @layer components {
   .btn-primary {
-    @apply bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600 transition duration-300;
+    @apply bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 px-6 rounded-lg 
+           transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-[1.02]
+           border border-gray-600 hover:border-gray-500;
   }
 
   .input-field {
-    @apply border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500;
+    @apply bg-gray-800 border-2 border-gray-700 text-white placeholder-gray-400 rounded-lg px-4 py-3 
+           focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-gray-500
+           hover:border-gray-600 transition-all duration-200;
+  }
+}
+
+/* Keyframes para animações */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

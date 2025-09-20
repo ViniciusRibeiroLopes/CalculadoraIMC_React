@@ -50,11 +50,11 @@ export default function InputForm({ onCalculate }) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="w-full max-w-md bg-white rounded-2xl p-8 card-shadow animate-slide-up"
+      className="w-full max-w-md bg-gray-800 rounded-2xl p-8 card-shadow animate-slide-up border border-gray-700"
     >
       <div className="space-y-6">
         <div className="relative">
-          <label className="block text-gray-700 text-sm font-semibold mb-2">
+          <label className="block text-gray-300 text-sm font-semibold mb-2">
             Peso
           </label>
           <div className="relative">
@@ -79,25 +79,25 @@ export default function InputForm({ onCalculate }) {
               placeholder="Ex: 70.5"
               value={peso}
               onChange={handlePesoChange}
-              className={`w-full pl-10 pr-12 py-3 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all ${
+              className={`w-full pl-10 pr-12 py-3 border-2 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 transition-all ${
                 errors.peso
-                  ? "border-red-400 bg-red-50"
-                  : "border-gray-200 hover:border-gray-300"
+                  ? "border-red-500 bg-red-900/20"
+                  : "border-gray-600 hover:border-gray-500"
               }`}
             />
             <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-              <span className="text-gray-500 font-medium">kg</span>
+              <span className="text-gray-400 font-medium">kg</span>
             </div>
           </div>
           {errors.peso && (
-            <p className="text-red-500 text-xs mt-1 animate-slide-up">
+            <p className="text-red-400 text-xs mt-1 animate-slide-up">
               {errors.peso}
             </p>
           )}
         </div>
 
         <div className="relative">
-          <label className="block text-gray-700 text-sm font-semibold mb-2">
+          <label className="block text-gray-300 text-sm font-semibold mb-2">
             Altura
           </label>
           <div className="relative">
@@ -128,18 +128,18 @@ export default function InputForm({ onCalculate }) {
               placeholder="Ex: 175"
               value={altura}
               onChange={handleAlturaChange}
-              className={`w-full pl-10 pr-12 py-3 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all ${
+              className={`w-full pl-10 pr-12 py-3 border-2 rounded-lg bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 transition-all ${
                 errors.altura
-                  ? "border-red-400 bg-red-50"
-                  : "border-gray-200 hover:border-gray-300"
+                  ? "border-red-500 bg-red-900/20"
+                  : "border-gray-700 hover:border-gray-600"
               }`}
             />
             <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-              <span className="text-gray-500 font-medium">cm</span>
+              <span className="text-gray-400 font-medium">cm</span>
             </div>
           </div>
           {errors.altura && (
-            <p className="text-red-500 text-xs mt-1 animate-slide-up">
+            <p className="text-red-400 text-xs mt-1 animate-slide-up">
               {errors.altura}
             </p>
           )}
@@ -147,7 +147,7 @@ export default function InputForm({ onCalculate }) {
 
         <button
           type="submit"
-          className="w-full bg-blue-800 text-white font-semibold py-4 rounded-lg hover:from-blue-700 hover:to-purple-700 transform hover:scale-[1.02] transition-all duration-200 shadow-lg hover:shadow-xl"
+          className="w-full bg-gray-600 text-white font-semibold py-4 rounded-lg hover:bg-gray-500 transform hover:scale-[1.02] transition-all duration-200 shadow-lg hover:shadow-xl border border-gray-500"
         >
           <span className="flex items-center justify-center">
             <svg
