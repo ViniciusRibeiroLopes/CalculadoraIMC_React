@@ -49,8 +49,22 @@ export default function Result({ imc }) {
     icon = "⚠️";
     description =
       "Você está com sobrepeso. Considere ajustar sua dieta e exercícios.";
+  } else if (imc < 35) {
+    categoria = "Obesidade Grau I";
+    color = "text-red-400";
+    bgColor = "bg-gray-800 border-red-500/50";
+    icon = "⚠️";
+    description =
+      "Você está com obesidade. É importante buscar orientação médica.";
+  } else if (imc < 40) {
+    categoria = "Obesidade Grau II";
+    color = "text-red-400";
+    bgColor = "bg-gray-800 border-red-500/50";
+    icon = "⚠️";
+    description =
+      "Você está com obesidade. É importante buscar orientação médica.";
   } else {
-    categoria = "Obesidade";
+    categoria = "Obesidade Grau III";
     color = "text-red-400";
     bgColor = "bg-gray-800 border-red-500/50";
     icon = "⚠️";

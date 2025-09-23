@@ -76,7 +76,6 @@ export default function InputForm({ onCalculate }) {
             <input
               type="number"
               step="0.1"
-              placeholder="Ex: 70.5"
               value={peso}
               onChange={handlePesoChange}
               className={`w-full pl-10 pr-12 py-3 border-2 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 transition-all ${
@@ -125,7 +124,6 @@ export default function InputForm({ onCalculate }) {
             <input
               type="number"
               step="1"
-              placeholder="Ex: 175"
               value={altura}
               onChange={handleAlturaChange}
               className={`w-full pl-10 pr-12 py-3 border-2 rounded-lg bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 transition-all ${
