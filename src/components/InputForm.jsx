@@ -78,7 +78,7 @@ export default function InputForm({ onCalculate }) {
               step="0.1"
               value={peso}
               onChange={handlePesoChange}
-              className={`w-full pl-10 pr-12 py-3 border-2 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 transition-all ${
+              className={`w-full pl-10 pr-12 py-3 border-2 rounded-lg bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 transition-all ${
                 errors.peso
                   ? "border-red-500 bg-red-900/20"
                   : "border-gray-600 hover:border-gray-500"
