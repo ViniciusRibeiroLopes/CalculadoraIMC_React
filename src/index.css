@@ -1,6 +1,5 @@
 @import "tailwindcss";
 
-/* Custom utility classes */
 @layer utilities {
   .gradient-bg {
     background: linear-gradient(
@@ -44,7 +43,6 @@
   }
 }
 
-/* Keyframes para animações */
 @keyframes fadeIn {
   from {
     opacity: 0;

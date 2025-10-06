@@ -1,10 +1,10 @@
 import Navbar from "../components/Navbar";
+import { useNavigate } from "react-router-dom";
 
-export default function NotFoundPage({ navigate }) {
+export default function NotFoundPage() {
+  const navigate = useNavigate();
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-800 via-gray-900 to-gray-800">
-      <Navbar navigate={navigate} />
-
       <div className="container mx-auto px-4 py-16 flex items-center justify-center min-h-[calc(100vh-64px)]">
         <div className="text-center max-w-2xl">
           <div className="mb-8">

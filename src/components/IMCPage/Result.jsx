@@ -1,21 +1,11 @@
-export default function Result({ imc }) {
+export function Result({ imc }) {
   if (!imc) {
     return (
-      <div className="w-full max-w-md bg-gray-800 rounded-2xl p-8 border-2 border-dashed border-gray-600 text-center">
-        <svg
-          className="w-16 h-16 mx-auto text-gray-600 mb-4"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-          ></path>
-        </svg>
-        <p className="text-gray-400">
+      <div className="w-full max-w-md bg-gray-900 border-2 border-dashed border-gray-700 p-12 text-center">
+        <div className="w-12 h-12 border-2 border-gray-700 mx-auto mb-6 flex items-center justify-center">
+          <div className="w-2 h-2 bg-gray-700"></div>
+        </div>
+        <p className="text-gray-400 font-light">
           Insira seu peso e altura para calcular o IMC
         </p>
       </div>
@@ -24,58 +14,44 @@ export default function Result({ imc }) {
 
   let categoria = "";
   let color = "";
-  let bgColor = "";
-  let icon = "";
+  let borderColor = "";
   let description = "";
 
   if (imc < 18.5) {
     categoria = "Abaixo do peso";
     color = "text-blue-400";
-    bgColor = "bg-gray-800 border-blue-500/50";
-    icon = "⚠️";
-    description =
-      "Você está abaixo do peso ideal. Considere consultar um nutricionista.";
+    borderColor = "border-blue-400";
+    description = "Você está abaixo do peso ideal. Considere consultar um nutricionista.";
   } else if (imc < 25) {
     categoria = "Peso normal";
     color = "text-green-400";
-    bgColor = "bg-gray-800 border-green-500/50";
-    icon = "✅";
-    description =
-      "Parabéns! Você está com o peso ideal. Continue mantendo hábitos saudáveis.";
+    borderColor = "border-green-400";
+    description = "Parabéns! Você está com o peso ideal. Continue mantendo hábitos saudáveis.";
   } else if (imc < 30) {
     categoria = "Sobrepeso";
     color = "text-yellow-400";
-    bgColor = "bg-gray-800 border-yellow-500/50";
-    icon = "⚠️";
-    description =
-      "Você está com sobrepeso. Considere ajustar sua dieta e exercícios.";
+    borderColor = "border-yellow-400";
+    description = "Você está com sobrepeso. Considere ajustar sua dieta e exercícios.";
   } else if (imc < 35) {
     categoria = "Obesidade Grau I";
     color = "text-red-400";
-    bgColor = "bg-gray-800 border-red-500/50";
-    icon = "⚠️";
-    description =
-      "Você está com obesidade. É importante buscar orientação médica.";
+    borderColor = "border-red-400";
+    description = "Você está com obesidade. É importante buscar orientação médica.";
   } else if (imc < 40) {
     categoria = "Obesidade Grau II";
     color = "text-red-400";
-    bgColor = "bg-gray-800 border-red-500/50";
-    icon = "⚠️";
-    description =
-      "Você está com obesidade. É importante buscar orientação médica.";
+    borderColor = "border-red-400";
+    description = "Você está com obesidade. É importante buscar orientação médica.";
   } else {
     categoria = "Obesidade Grau III";
     color = "text-red-400";
-    bgColor = "bg-gray-800 border-red-500/50";
-    icon = "⚠️";
-    description =
-      "Você está com obesidade. É importante buscar orientação médica.";
+    borderColor = "border-red-400";
+    description = "Você está com obesidade. É importante buscar orientação médica.";
   }
 
   const getProgressWidth = () => {
     const minIMC = 15;
     const maxIMC = 40;
-
     const clampedIMC = Math.max(minIMC, Math.min(maxIMC, imc));
 
     let position;
@@ -94,39 +70,34 @@ export default function Result({ imc }) {
 
   return (
     <div className="w-full max-w-2xl">
-      <div className={`rounded-2xl p-8 border-2 ${bgColor} card-shadow`}>
-        <div className="text-center mb-6">
-          <div className="text-5xl mb-4">{icon}</div>
-          <h2 className={`text-4xl font-bold ${color} mb-2`}>
+      <div className={`bg-gray-900 p-8 border-2 ${borderColor}`}>
+        <div className="text-center mb-8 pb-8 border-b border-gray-700">
+          <div className="text-sm font-medium tracking-wider mb-4 text-gray-400">
+            SEU RESULTADO
+          </div>
+          <h2 className={`text-6xl font-light ${color} mb-4`}>
             {imc.toFixed(1)}
           </h2>
-          <p className={`text-xl font-semibold ${color}`}>{categoria}</p>
+          <p className={`text-xl font-medium ${color} tracking-wide`}>{categoria}</p>
         </div>
 
-        <div className="mb-6">
-          <div className="relative bg-gray-700 rounded-full h-4 mb-2 overflow-hidden">
+        <div className="mb-8">
+          <div className="relative bg-gray-800 h-2 mb-4 overflow-hidden">
             <div className="absolute inset-0 flex">
-              <div className="w-1/4 bg-blue-500/70"></div>
-              <div className="w-1/4 bg-green-500/70"></div>
-              <div className="w-1/4 bg-yellow-500/70"></div>
-              <div className="w-1/4 bg-red-500/70"></div>
+              <div className="w-1/4 bg-blue-400"></div>
+              <div className="w-1/4 bg-green-400"></div>
+              <div className="w-1/4 bg-yellow-400"></div>
+              <div className="w-1/4 bg-red-400"></div>
             </div>
             <div
-              className="absolute top-0 h-full w-1 bg-gray-300 transition-all duration-500"
+              className="absolute top-0 h-full w-0.5 bg-white transition-all duration-500"
               style={{ left: getProgressWidth() }}
             >
-              <div className="absolute -top-1 -left-2 w-5 h-6 bg-gray-300 rounded-full"></div>
+              <div className="absolute -top-1.5 -left-1.5 w-4 h-4 bg-white"></div>
             </div>
           </div>
 
-          <div className="flex justify-between text-xs text-gray-400 font-medium">
-            <span>Baixo</span>
-            <span>Normal</span>
-            <span>Sobrepeso</span>
-            <span>Obesidade</span>
-          </div>
-
-          <div className="flex justify-between text-xs text-gray-500 mt-1">
+          <div className="flex justify-between text-xs text-gray-500 font-medium tracking-wider">
             <span>&lt;18.5</span>
             <span>18.5-24.9</span>
             <span>25-29.9</span>
@@ -134,52 +105,30 @@ export default function Result({ imc }) {
           </div>
         </div>
 
-        <p className="text-gray-300 text-center mb-6">{description}</p>
+        <p className="text-gray-400 text-center mb-8 leading-relaxed border-l-2 border-gray-700 pl-6 text-left">
+          {description}
+        </p>
 
-        <div className="bg-gray-700/50 rounded-lg p-4 border border-gray-600">
-          <h3 className="font-semibold text-gray-300 mb-3 text-sm">
-            Tabela de Referência IMC
+        <div className="bg-gray-800 border border-gray-700 p-6">
+          <h3 className="font-medium text-gray-300 mb-4 text-sm tracking-wider uppercase">
+            Referência IMC
           </h3>
-          <div className="space-y-2 text-sm">
-            <div
-              className={`flex justify-between py-1 px-2 rounded transition-colors ${
-                imc < 18.5
-                  ? "bg-blue-800/30 font-semibold"
-                  : "hover:bg-gray-600/70"
-              }`}
-            >
+          <div className="space-y-3 text-sm">
+            <div className={`flex justify-between py-2 border-b border-gray-700 ${imc < 18.5 ? "font-bold" : ""}`}>
               <span className="text-gray-400">Abaixo do peso</span>
-              <span className="font-medium text-blue-400">&lt; 18.5</span>
+              <span className={imc < 18.5 ? color : "text-gray-500"}>&lt; 18.5</span>
             </div>
-            <div
-              className={`flex justify-between py-1 px-2 rounded transition-colors ${
-                imc >= 18.5 && imc < 25
-                  ? "bg-green-800/30 font-semibold"
-                  : "hover:bg-gray-600/70"
-              }`}
-            >
+            <div className={`flex justify-between py-2 border-b border-gray-700 ${imc >= 18.5 && imc < 25 ? "font-bold" : ""}`}>
               <span className="text-gray-400">Peso normal</span>
-              <span className="font-medium text-green-400">18.5 - 24.9</span>
+              <span className={imc >= 18.5 && imc < 25 ? color : "text-gray-500"}>18.5 - 24.9</span>
             </div>
-            <div
-              className={`flex justify-between py-1 px-2 rounded transition-colors ${
-                imc >= 25 && imc < 30
-                  ? "bg-yellow-800/30 font-semibold"
-                  : "hover:bg-gray-600/70"
-              }`}
-            >
+            <div className={`flex justify-between py-2 border-b border-gray-700 ${imc >= 25 && imc < 30 ? "font-bold" : ""}`}>
               <span className="text-gray-400">Sobrepeso</span>
-              <span className="font-medium text-yellow-400">25.0 - 29.9</span>
+              <span className={imc >= 25 && imc < 30 ? color : "text-gray-500"}>25.0 - 29.9</span>
             </div>
-            <div
-              className={`flex justify-between py-1 px-2 rounded transition-colors ${
-                imc >= 30
-                  ? "bg-red-800/30 font-semibold"
-                  : "hover:bg-gray-600/70"
-              }`}
-            >
+            <div className={`flex justify-between py-2 ${imc >= 30 ? "font-bold" : ""}`}>
               <span className="text-gray-400">Obesidade</span>
-              <span className="font-medium text-red-400">≥ 30.0</span>
+              <span className={imc >= 30 ? color : "text-gray-500"}>≥ 30.0</span>
             </div>
           </div>
         </div>
@@ -187,3 +136,5 @@ export default function Result({ imc }) {
     </div>
   );
 }
+
+export default Result;

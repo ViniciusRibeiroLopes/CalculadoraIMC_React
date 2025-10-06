@@ -1,56 +1,41 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-export default function Navbar({ navigate }) {
+export default function Navbar() {
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const currentPath = window.location.pathname;
 
   return (
-    <nav className="bg-gray-800 border-b border-gray-700 sticky top-0 z-50 shadow-lg">
+    <nav className="fixed top-0 left-0 right-0 bg-gray-900/80 backdrop-blur-sm border-b border-gray-700 z-50">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
-          {/* Logo */}
           <div
             className="flex items-center cursor-pointer"
             onClick={() => navigate("/")}
           >
-            <div className="bg-gradient-to-r from-blue-500 to-purple-500 p-2 rounded-lg mr-3">
-              <svg
-                className="w-8 h-8 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                />
-              </svg>
+            <div className="text-2xl font-light tracking-tight text-white">
+              Índice<span className="font-bold">Saúde</span>
             </div>
-            <span className="text-white text-xl font-bold">
-              HealthTech Solutions
-            </span>
           </div>
 
-          {/* Desktop Menu */}
-          <div className="hidden md:flex items-center space-x-1">
+          <div className="hidden md:flex items-center space-x-8">
             <button
               onClick={() => navigate("/")}
-              className={`px-4 py-2 rounded-lg font-medium transition-all ${
+              className={`text-sm font-medium pb-1 transition-colors ${
                 currentPath === "/"
-                  ? "bg-gray-700 text-white"
-                  : "text-gray-300 hover:bg-gray-700 hover:text-white"
+                  ? "border-b-2 border-gray-400 text-white"
+                  : "text-gray-300 hover:text-white"
               }`}
             >
               Home
             </button>
             <button
               onClick={() => navigate("/imc")}
-              className={`px-4 py-2 rounded-lg font-medium transition-all ${
+              className={`text-sm font-medium pb-1 transition-colors ${
                 currentPath === "/imc"
-                  ? "bg-gray-700 text-white"
-                  : "text-gray-300 hover:bg-gray-700 hover:text-white"
+                  ? "border-b-2 border-gray-400 text-white"
+                  : "text-gray-300 hover:text-white"
               }`}
             >
               Calculadora IMC
@@ -60,7 +45,7 @@ export default function Navbar({ navigate }) {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden text-gray-300 hover:text-white"
+            className="md:hidden text-gray-300 hover:text-white transition-colors"
           >
             <svg
               className="w-6 h-6"
@@ -89,16 +74,16 @@ export default function Navbar({ navigate }) {
 
         {/* Mobile Menu */}
         {isOpen && (
-          <div className="md:hidden pb-4 space-y-2">
+          <div className="md:hidden pb-4 space-y-2 animate-fade-in">
             <button
               onClick={() => {
                 navigate("/");
                 setIsOpen(false);
               }}
-              className={`block w-full text-left px-4 py-2 rounded-lg font-medium transition-all ${
+              className={`block w-full text-left px-4 py-3 font-medium transition-colors ${
                 currentPath === "/"
-                  ? "bg-gray-700 text-white"
-                  : "text-gray-300 hover:bg-gray-700 hover:text-white"
+                  ? "text-white bg-gray-800"
+                  : "text-gray-300 hover:text-white hover:bg-gray-800"
               }`}
             >
               Home
@@ -108,10 +93,10 @@ export default function Navbar({ navigate }) {
                 navigate("/imc");
                 setIsOpen(false);
               }}
-              className={`block w-full text-left px-4 py-2 rounded-lg font-medium transition-all ${
+              className={`block w-full text-left px-4 py-3 font-medium transition-colors ${
                 currentPath === "/imc"
-                  ? "bg-gray-700 text-white"
-                  : "text-gray-300 hover:bg-gray-700 hover:text-white"
+                  ? "text-white bg-gray-800"
+                  : "text-gray-300 hover:text-white hover:bg-gray-800"
               }`}
             >
               Calculadora IMC

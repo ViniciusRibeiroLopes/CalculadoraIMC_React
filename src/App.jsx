@@ -1,17 +1,18 @@
-import { Router, Routes, Route } from "react";
-import "./App.css";
-import HomePage from "./components/HomePage";
-import IMCPage from "./components/IMCPage";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import Home from "./components/HomePage";
+import IMC from "./components/IMCPage";
 import NotFoundPage from "./components/404Page";
 
 export default function App() {
   return (
-    <Router>
+    <BrowserRouter>
+      <Navbar />
       <Routes>
-        <Route path="/" element={(props) => <HomePage {...props} />} />
-        <Route path="/imc" element={(props) => <IMCPage {...props} />} />
-        <Route path="*" element={(props) => <NotFoundPage {...props} />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/imc" element={<IMC />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
-    </Router>
+    </BrowserRouter>
   );
 }
