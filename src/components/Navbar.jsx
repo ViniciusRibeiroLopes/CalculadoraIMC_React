@@ -1,10 +1,17 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { getCurrentUser, logoutUser, onAuthChange } from "../utils/auth";
 
 export default function Navbar() {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
+  const [user, setUser] = useState(getCurrentUser());
   const currentPath = window.location.pathname;
+
+  useEffect(() => {
+    const unsub = onAuthChange(() => setUser(getCurrentUser()));
+    return unsub;
+  }, []);
 
   return (
     <nav className="fixed top-0 left-0 right-0 bg-gray-900/80 backdrop-blur-sm border-b border-gray-700 z-50">
@@ -19,7 +26,7 @@ export default function Navbar() {
             </div>
           </div>
 
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-6">
             <button
               onClick={() => navigate("/")}
               className={`text-sm font-medium pb-1 transition-colors ${
@@ -40,6 +47,47 @@ export default function Navbar() {
             >
               Calculadora IMC
             </button>
+
+            <button
+              onClick={() => navigate("/users")}
+              className={`text-sm font-medium pb-1 transition-colors ${
+                currentPath === "/users"
+                  ? "border-b-2 border-gray-400 text-white"
+                  : "text-gray-300 hover:text-white"
+              }`}
+            >
+              Usuários logados
+            </button>
+
+            {user ? (
+              <div className="flex items-center gap-4">
+                <div className="text-sm text-gray-300">{user.name}</div>
+                <button
+                  onClick={() => {
+                    logoutUser();
+                    navigate("/");
+                  }}
+                  className="text-sm text-gray-300 hover:text-white"
+                >
+                  Sair
+                </button>
+              </div>
+            ) : (
+              <div className="flex items-center gap-4">
+                <button
+                  onClick={() => navigate("/login")}
+                  className="text-sm text-gray-300 hover:text-white"
+                >
+                  Entrar
+                </button>
+                <button
+                  onClick={() => navigate("/register")}
+                  className="text-sm text-gray-300 hover:text-white"
+                >
+                  Cadastro
+                </button>
+              </div>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -101,6 +149,57 @@ export default function Navbar() {
             >
               Calculadora IMC
             </button>
+
+            <button
+              onClick={() => {
+                navigate("/users");
+                setIsOpen(false);
+              }}
+              className={`block w-full text-left px-4 py-3 font-medium transition-colors ${
+                currentPath === "/users"
+                  ? "text-white bg-gray-800"
+                  : "text-gray-300 hover:text-white hover:bg-gray-800"
+              }`}
+            >
+              Usuários logados
+            </button>
+
+            {user ? (
+              <div className="px-4 py-3 flex items-center justify-between">
+                <div className="text-white">{user.name}</div>
+                <button
+                  onClick={() => {
+                    logoutUser();
+                    navigate("/");
+                    setIsOpen(false);
+                  }}
+                  className="text-sm text-gray-300 hover:text-white"
+                >
+                  Sair
+                </button>
+              </div>
+            ) : (
+              <div className="px-4 py-3 flex items-center gap-4">
+                <button
+                  onClick={() => {
+                    navigate("/login");
+                    setIsOpen(false);
+                  }}
+                  className="text-gray-300 hover:text-white"
+                >
+                  Entrar
+                </button>
+                <button
+                  onClick={() => {
+                    navigate("/register");
+                    setIsOpen(false);
+                  }}
+                  className="text-gray-300 hover:text-white"
+                >
+                  Cadastro
+                </button>
+              </div>
+            )}
           </div>
         )}
       </div>
