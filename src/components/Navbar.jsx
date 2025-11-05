@@ -1,104 +1,92 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { getCurrentUser, logoutUser, onAuthChange } from "../utils/auth";
 
 export default function Navbar() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const [user, setUser] = useState(getCurrentUser());
   const [userMenuOpen, setUserMenuOpen] = useState(false);
-  const currentPath = window.location.pathname;
+  const currentPath = location.pathname;
 
   useEffect(() => {
     const unsub = onAuthChange(() => setUser(getCurrentUser()));
     return unsub;
   }, []);
 
-  // Fecha menus quando clica fora
   useEffect(() => {
-    const closeMenus = () => {
-      setIsOpen(false);
-      setUserMenuOpen(false);
+    setIsOpen(false);
+    setUserMenuOpen(false);
+  }, [location]);
+
+  useEffect(() => {
+    const closeUserMenu = (e) => {
+      if (userMenuOpen && !e.target.closest(".user-menu-container")) {
+        setUserMenuOpen(false);
+      }
     };
-    window.addEventListener("click", closeMenus);
-    return () => window.removeEventListener("click", closeMenus);
-  }, []);
+    document.addEventListener("click", closeUserMenu);
+    return () => document.removeEventListener("click", closeUserMenu);
+  }, [userMenuOpen]);
 
-  const handleMenuClick = (e) => {
-    e.stopPropagation(); // Previne que o click chegue no listener global
-    setIsOpen(!isOpen);
+  useEffect(() => {
+    document.body.style.overflow = isOpen ? "hidden" : "unset";
+    return () => (document.body.style.overflow = "unset");
+  }, [isOpen]);
+
+  const handleLogout = () => {
+    logoutUser();
+    navigate("/");
   };
 
-  const handleUserMenuClick = (e) => {
-    e.stopPropagation(); // Previne que o click chegue no listener global
-    setUserMenuOpen(!userMenuOpen);
-  };
+  const NavLink = ({ to, children }) => (
+    <button
+      onClick={() => navigate(to)}
+      className={`text-sm font-medium transition-all hover:text-white relative group ${
+        currentPath === to ? "text-white" : "text-gray-400"
+      }`}
+    >
+      {children}
+      <div
+        className={`absolute bottom-0 left-0 w-full h-0.5 bg-gray-400 transform origin-left transition-transform duration-300 ${
+          currentPath === to
+            ? "scale-x-100"
+            : "scale-x-0 group-hover:scale-x-100"
+        }`}
+      ></div>
+    </button>
+  );
 
   return (
-    <nav className="fixed top-0 left-0 right-0 bg-gray-900/80 backdrop-blur-sm border-b border-gray-800 z-50">
+    <nav className="fixed top-0 left-0 right-0 bg-gray-900/95 backdrop-blur-sm border-b border-gray-800 z-50">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
+          {/* Logo */}
           <div
             className="flex items-center cursor-pointer"
             onClick={() => navigate("/")}
           >
-            <div className="text-2xl font-light tracking-tight text-white">
+            <div className="text-xl md:text-2xl font-light tracking-tight text-white">
               Índice<span className="font-bold">Saúde</span>
             </div>
           </div>
 
+          {/* Desktop Menu */}
           <div className="hidden md:flex items-center space-x-8">
-            <button
-              onClick={() => navigate("/")}
-              className={`text-sm font-medium transition-all hover:text-white relative group ${
-                currentPath === "/" ? "text-white" : "text-gray-400"
-              }`}
-            >
-              Home
-              <div
-                className={`absolute bottom-0 left-0 w-full h-0.5 bg-gray-400 transform origin-left transition-transform duration-300 ${
-                  currentPath === "/"
-                    ? "scale-x-100"
-                    : "scale-x-0 group-hover:scale-x-100"
-                }`}
-              ></div>
-            </button>
-
-            <button
-              onClick={() => navigate("/imc")}
-              className={`text-sm font-medium transition-all hover:text-white relative group ${
-                currentPath === "/imc" ? "text-white" : "text-gray-400"
-              }`}
-            >
-              Calculadora IMC
-              <div
-                className={`absolute bottom-0 left-0 w-full h-0.5 bg-gray-400 transform origin-left transition-transform duration-300 ${
-                  currentPath === "/imc"
-                    ? "scale-x-100"
-                    : "scale-x-0 group-hover:scale-x-100"
-                }`}
-              ></div>
-            </button>
-
-            <button
-              onClick={() => navigate("/users")}
-              className={`text-sm font-medium transition-all hover:text-white relative group ${
-                currentPath === "/users" ? "text-white" : "text-gray-400"
-              }`}
-            >
-              Usuários logados
-              <div
-                className={`absolute bottom-0 left-0 w-full h-0.5 bg-gray-400 transform origin-left transition-transform duration-300 ${
-                  currentPath === "/users"
-                    ? "scale-x-100"
-                    : "scale-x-0 group-hover:scale-x-100"
-                }`}
-              ></div>
-            </button>
+            <NavLink to="/">Home</NavLink>
+            <NavLink to="/imc">Calculadora IMC</NavLink>
+            <NavLink to="/users">Usuários logados</NavLink>
 
             {user ? (
-              <div className="relative" onClick={handleUserMenuClick}>
-                <button className="flex items-center space-x-3 text-gray-300 hover:text-white transition-colors">
+              <div className="relative user-menu-container">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setUserMenuOpen(!userMenuOpen);
+                  }}
+                  className="flex items-center space-x-3 text-gray-300 hover:text-white transition-colors"
+                >
                   <span className="text-sm font-medium">{user.name}</span>
                   <svg
                     className={`w-4 h-4 transform transition-transform ${
@@ -118,15 +106,12 @@ export default function Navbar() {
                 </button>
 
                 {userMenuOpen && (
-                  <div className="absolute right-0 mt-2 w-48 rounded-lg bg-gray-800 border border-gray-700 shadow-lg overflow-hidden">
+                  <div className="absolute right-0 mt-2 w-48 rounded-lg bg-gray-800 border border-gray-700 shadow-lg overflow-hidden z-[55]">
                     <div className="py-2 px-4 text-sm text-gray-400 border-b border-gray-700">
                       {user.email}
                     </div>
                     <button
-                      onClick={() => {
-                        logoutUser();
-                        navigate("/");
-                      }}
+                      onClick={handleLogout}
                       className="w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 transition-colors"
                     >
                       Sair da conta
@@ -154,8 +139,9 @@ export default function Navbar() {
 
           {/* Mobile Menu Button */}
           <button
-            onClick={handleMenuClick}
-            className="md:hidden text-gray-300 hover:text-white transition-colors z-50"
+            onClick={() => setIsOpen(!isOpen)}
+            className="md:hidden text-gray-300 hover:text-white transition-colors p-2 z-[60]"
+            aria-label="Menu"
           >
             <svg
               className="w-6 h-6"
@@ -181,93 +167,96 @@ export default function Navbar() {
             </svg>
           </button>
         </div>
+      </div>
 
-        {/* Mobile Menu */}
-        {isOpen && (
-          <div className="fixed inset-0 bg-gray-900/95 md:hidden z-40">
-            <div className="flex flex-col items-center justify-center min-h-screen space-y-8 py-8">
-              <button
-                onClick={() => {
-                  navigate("/");
-                  setIsOpen(false);
-                }}
-                className={`text-2xl font-medium transition-colors ${
-                  currentPath === "/"
-                    ? "text-white"
-                    : "text-gray-400 hover:text-white"
-                }`}
-              >
-                Home
-              </button>
-              <button
-                onClick={() => {
-                  navigate("/imc");
-                  setIsOpen(false);
-                }}
-                className={`text-2xl font-medium transition-colors ${
-                  currentPath === "/imc"
-                    ? "text-white"
-                    : "text-gray-400 hover:text-white"
-                }`}
-              >
-                Calculadora IMC
-              </button>
+      {/* Mobile Menu */}
+      {isOpen && (
+        <div className="fixed inset-0 z-[60] md:hidden">
+          {/* Backdrop */}
+          <div
+            className="absolute inset-0 bg-black/50"
+            onClick={() => setIsOpen(false)}
+          />
 
-              <button
-                onClick={() => {
-                  navigate("/users");
-                  setIsOpen(false);
-                }}
-                className={`text-2xl font-medium transition-colors ${
-                  currentPath === "/users"
-                    ? "text-white"
-                    : "text-gray-400 hover:text-white"
-                }`}
-              >
-                Usuários logados
-              </button>
+          {/* Slide-down Menu Panel */}
+          <div className="absolute top-16 left-0 right-0 bg-gray-900 min-h-[calc(100vh-4rem)] overflow-y-auto transition-all duration-300 shadow-lg">
+            <div className="container mx-auto px-4 py-8">
+              <div className="flex flex-col space-y-6">
+                {/* Navigation Links */}
+                <button
+                  onClick={() => navigate("/")}
+                  className={`text-left text-lg font-medium transition-colors py-2 ${
+                    currentPath === "/"
+                      ? "text-white border-l-2 border-white pl-4"
+                      : "text-gray-400 hover:text-white pl-4"
+                  }`}
+                >
+                  Home
+                </button>
 
-              {user ? (
-                <div className="flex flex-col items-center space-y-4">
-                  <div className="text-xl text-white">{user.name}</div>
-                  <div className="text-sm text-gray-400">{user.email}</div>
-                  <button
-                    onClick={() => {
-                      logoutUser();
-                      navigate("/");
-                      setIsOpen(false);
-                    }}
-                    className="text-lg text-gray-300 hover:text-white"
-                  >
-                    Sair da conta
-                  </button>
+                <button
+                  onClick={() => navigate("/imc")}
+                  className={`text-left text-lg font-medium transition-colors py-2 ${
+                    currentPath === "/imc"
+                      ? "text-white border-l-2 border-white pl-4"
+                      : "text-gray-400 hover:text-white pl-4"
+                  }`}
+                >
+                  Calculadora IMC
+                </button>
+
+                <button
+                  onClick={() => navigate("/users")}
+                  className={`text-left text-lg font-medium transition-colors py-2 ${
+                    currentPath === "/users"
+                      ? "text-white border-l-2 border-white pl-4"
+                      : "text-gray-400 hover:text-white pl-4"
+                  }`}
+                >
+                  Usuários logados
+                </button>
+
+                {/* User Section */}
+                <div className="pt-6 border-t border-gray-800">
+                  {user ? (
+                    <div className="space-y-4">
+                      <div className="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                        <div className="text-white font-medium mb-1">
+                          {user.name}
+                        </div>
+                        <div className="text-sm text-gray-400">
+                          {user.email}
+                        </div>
+                      </div>
+                      <button
+                        onClick={handleLogout}
+                        className="w-full text-left px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800 rounded-lg transition-colors border border-gray-700"
+                      >
+                        Sair da conta
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="space-y-3">
+                      <button
+                        onClick={() => navigate("/login")}
+                        className="w-full text-center px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800 rounded-lg transition-colors border border-gray-700"
+                      >
+                        Entrar
+                      </button>
+                      <button
+                        onClick={() => navigate("/register")}
+                        className="w-full text-center px-4 py-3 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors"
+                      >
+                        Criar conta
+                      </button>
+                    </div>
+                  )}
                 </div>
-              ) : (
-                <div className="flex flex-col items-center space-y-4">
-                  <button
-                    onClick={() => {
-                      navigate("/login");
-                      setIsOpen(false);
-                    }}
-                    className="text-xl text-gray-300 hover:text-white"
-                  >
-                    Entrar
-                  </button>
-                  <button
-                    onClick={() => {
-                      navigate("/register");
-                      setIsOpen(false);
-                    }}
-                    className="text-xl px-6 py-3 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors"
-                  >
-                    Criar conta
-                  </button>
-                </div>
-              )}
+              </div>
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </nav>
   );
 }

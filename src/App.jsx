@@ -14,7 +14,14 @@ export default function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/imc" element={<IMC />} />
+        <Route
+          path="/imc"
+          element={
+            <ProtectedRoute>
+              <IMC />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route

@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { loginUser } from "../../utils/auth";
 
 export default function Login() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
@@ -13,7 +14,9 @@ export default function Login() {
     setError(null);
     try {
       await loginUser(email.trim(), password);
-      navigate("/");
+      // Redireciona para a página que o usuário tentou acessar, ou para home
+      const from = location.state?.from?.pathname || "/";
+      navigate(from, { replace: true });
     } catch (err) {
       setError(err.message);
     }

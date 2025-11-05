@@ -1,8 +1,18 @@
 import { useNavigate } from "react-router-dom";
-import Footer from "./IMCPage/Footer";
+import { getCurrentUser } from "../utils/auth";
 
 export default function HomePage() {
   const navigate = useNavigate();
+  const user = getCurrentUser();
+
+  const handleCalculateIMC = () => {
+    if (user) {
+      navigate("/imc");
+    } else {
+      // Redireciona para login e depois volta para IMC
+      navigate("/login", { state: { from: { pathname: "/imc" } } });
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-900">
@@ -22,12 +32,19 @@ export default function HomePage() {
             resultados.
           </p>
           <button
-            onClick={() => navigate("/imc")}
+            onClick={handleCalculateIMC}
             className="group relative px-8 py-4 bg-gray-700 text-white font-medium overflow-hidden hover:bg-gray-600 transition-colors"
           >
-            <span className="relative z-10">Iniciar Avaliação</span>
+            <span className="relative z-10">
+              {user ? "Iniciar Avaliação" : "Fazer Login e Calcular"}
+            </span>
             <div className="absolute inset-0 bg-gray-600 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
           </button>
+          {!user && (
+            <p className="mt-4 text-sm text-gray-500">
+              É necessário fazer login para calcular o IMC
+            </p>
+          )}
         </div>
       </section>
 
@@ -133,17 +150,16 @@ export default function HomePage() {
           <div className="grid md:grid-cols-3 gap-12 max-w-5xl mx-auto">
             <div className="text-center">
               <div className="text-6xl font-bold mb-4 text-gray-600">01</div>
-              <h3 className="text-xl font-bold mb-3">Insira seus dados</h3>
+              <h3 className="text-xl font-bold mb-3">Faça login</h3>
               <p className="text-gray-400 leading-relaxed">
-                Altura e peso. Simples assim. Sem cadastros ou informações
-                desnecessárias.
+                Crie sua conta ou entre para acessar a calculadora de IMC.
               </p>
             </div>
             <div className="text-center">
               <div className="text-6xl font-bold mb-4 text-gray-600">02</div>
-              <h3 className="text-xl font-bold mb-3">Cálculo instantâneo</h3>
+              <h3 className="text-xl font-bold mb-3">Insira seus dados</h3>
               <p className="text-gray-400 leading-relaxed">
-                Nosso algoritmo processa em menos de 1 segundo e gera seu IMC.
+                Altura e peso. Simples assim. Interface intuitiva e rápida.
               </p>
             </div>
             <div className="text-center">
@@ -196,15 +212,16 @@ export default function HomePage() {
             Comece <span className="font-bold">agora</span>
           </h2>
           <p className="text-xl text-gray-400 mb-12 max-w-2xl mx-auto">
-            Não precisa de cadastro. Não precisa de pagamento. Apenas você e sua
-            saúde.
+            {user
+              ? "Você está pronto para calcular seu IMC."
+              : "Crie sua conta gratuita e comece a monitorar sua saúde hoje."}
           </p>
           <button
-            onClick={() => navigate("/imc")}
+            onClick={handleCalculateIMC}
             className="group relative px-12 py-5 bg-gray-700 text-white font-medium text-lg overflow-hidden hover:bg-gray-600 transition-colors"
           >
             <span className="relative z-10 flex items-center gap-3 justify-center">
-              Calcular IMC
+              {user ? "Calcular IMC" : "Criar Conta e Calcular"}
               <svg
                 className="w-5 h-5 transform group-hover:translate-x-2 transition-transform"
                 fill="none"
